@@ -4,33 +4,40 @@
   become: true
   vars:
     standalone_mode: true
-    parted:
-      - device: /dev/sdb
-        number: 1
-        state: present
-    filesystem:
-      - fstype: ext4
-        dev: /dev/sdb
-    mount:
-      - path: /var/lib/postgresql/14/main
-        src: /dev/sdb
-        fstype: ext4
-        opts: defaults
   tasks:
     - name: 01 Mount extra disk to servers
       ansible.builtin.include_role:
         name: mount-disk
-      tags: mountdisk
+      vars:
+        parted:
+          - device: /dev/sdb
+            number: 1
+            state: present
+        filesystem:
+          - fstype: ext4
+            dev: /dev/sdb
+        mount:
+          - path: /var/lib/postgresql/14/main
+            src: /dev/sdb
+            fstype: ext4
+            opts: defaults
+      tags:
+        - mountdisk
+#        - bypass
 
     - name: Install PG role
       ansible.builtin.include_role:
         name: install-pg-role
-      tags: installdb
+      tags:
+        - installdb
+        - bypass
 
     - name: Standalone role
       ansible.builtin.include_role:
         name: standalone-role
       when: standalone_mode
+      tags:
+        - bypass
 
     - name: Replication role 01
       ansible.builtin.include_role:

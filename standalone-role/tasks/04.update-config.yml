@@ -2,7 +2,7 @@
 # 04 update config file
 - name: 04 Copy template tu file len server
   ansible.builtin.template:
-    src: pg_hba.conf.j2
+    src: standalone_pg_hba.conf.j2
     dest: /tmp/pg_hba.conf
     backup: true
   # notify:

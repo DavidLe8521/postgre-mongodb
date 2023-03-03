@@ -1,7 +1,7 @@
 ---
-###tasks file for standalone-role
+###tasks file for replication-role
 
-- name: 03 Create-user standalone mode
+- name: 03 Create-user repication mode
   ansible.builtin.include_tasks:
     03.create-user.yml
   tags: createUser

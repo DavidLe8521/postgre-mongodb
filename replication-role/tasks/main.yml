@@ -1,25 +1,25 @@
 ---
-# tasks file for standalone-role
-# - name: 01 Install requirement package
-#   ansible.builtin.include_tasks:
-#     01.pre-installdb.yml
+###tasks file for replication-role
 
-# - name: "02 Install PG"
-#   ansible.builtin.include_tasks:
-#     02.install-PG.yml
+- name: 03 Create-user repication mode
+  ansible.builtin.include_tasks:
+    03.create-user.yml
+  tags: createUser
 
-# - name: 03 Create User
-#   ansible.builtin.include_tasks:
-#     03.create-user.yml
+- name: 04 Update template from local to srv
+  ansible.builtin.include_tasks:
+    04.update-config.yml
 
-# - name: 04 Update template from local to srv
-#   ansible.builtin.include_tasks:
-#     04.update-config.yml
+- name: 05 Check if postgresql is initialized
+  ansible.builtin.include_tasks:
+    05.check_postgresql.yml
 
-- name: Check if postgresql is initialized
-  ansible.builtin.stat:
-    path: "{{ postgresql_data_dir }}/pg_hba.conf"
-  register: postgres_data
+# - name: Check if postgresql is initialized
+#   ansible.builtin.stat:
+#     path: "{{ postgresql_data_dir }}/pg_hba.conf"
+#   register: postgres_data
+#   notify:
+#     - Stop Postgresql
 
 # - name: Empty data dir
 #   ansible.builtin.file:

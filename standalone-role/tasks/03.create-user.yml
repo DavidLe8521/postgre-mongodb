@@ -5,7 +5,7 @@
     name: python3-psycopg2
     state: present
 
-- name: Create db user
+- name: Create db single mode user
   become: true
   become_user: postgres
   community.postgresql.postgresql_user:
@@ -15,3 +15,5 @@
     role_attr_flags: REPLICATION
     # name: "{{ db_user }}"
     # password: "{{ db_password }}"
+  tags:
+    - bypass
