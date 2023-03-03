@@ -20,7 +20,7 @@
       - fstype: ext4
         dev: /dev/sdb
     mount:
-      - path: /mnt/pgdata
+      - path: /var/lib/postgresql/14/main
         src: /dev/sdb
         fstype: ext4
         opts: defaults

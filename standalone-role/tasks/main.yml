@@ -4,6 +4,7 @@
 - name: 03 Create-user standalone mode
   ansible.builtin.include_tasks:
     03.create-user.yml
+  tags: createUser
 
 - name: 04 Update template from local to srv
   ansible.builtin.include_tasks:
