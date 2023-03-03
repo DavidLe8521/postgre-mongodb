@@ -1,0 +1,4 @@
+- name: Stop Postgresql
+  ansible.builtin.systemd:
+    name: postgresql
+    state: stopped

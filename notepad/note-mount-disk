@@ -1,0 +1,19 @@
+https://linuxhint.com/how-to-mount-drive-in-ubuntu/
+Mount disk
+
+1. format /dev/sdb
+sudo mkfs.ext4 /dev/sdb
+
+2. tao thu muc de mount
+sudo mkdir /mnt/pgdata
+
+3. mount disk voi thu muc
+sudo mount /dev/sdb mnt/pgdata
+
+4.update fstab config file
+sudo nano /etc/fstab
+
+/dev/sdb    /mnt/pgdata     ext4      defaults        0             0
+
+5. reboot de kiem tra
+df -hT

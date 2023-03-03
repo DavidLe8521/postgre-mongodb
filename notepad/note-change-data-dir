@@ -1,0 +1,29 @@
+https://help.cloud66.com/docs/databases/change-psql-directory
+
+https://www.digitalocean.com/community/tutorials/how-to-move-a-postgresql-data-directory-to-a-new-location-on-ubuntu-22-04
+
+
+
+https://fitodic.github.io/how-to-change-postgresql-data-directory-on-linux
+
+--> da test nhung bi loi thu cach khac
+
+1. Kiem tra config cua data dir va config file hien tai voi psql tool
+su - postgres
+
+postgres=# show config_file;
+               config_file               
+-----------------------------------------
+ /etc/postgresql/14/main/postgresql.conf
+(1 row)
+
+postgres=# show data_directory;
+       data_directory        
+-----------------------------
+ /var/lib/postgresql/14/main
+(1 row)
+
+2. Stop postgresql service
+systemctl stop postgresql
+
+

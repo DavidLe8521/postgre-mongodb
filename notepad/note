@@ -1,0 +1,88 @@
+h
+1. 1 role cho replicaiton va standlone
+
+2. 
+handler - flush data
+
+ttps://docs.ansible.com/ansible/latest/collections/community/postgresql/postgresql_slot_module.html#ansible-collections-community-postgresql-postgresql-slot-module
+
+
+[9:39] Nguyen Van Cuong (GHC.COE)
+format extra disk, mount disk de chua datamongo: setup standalone + replica setpostgres: setup standalone + replication
+
+[9:45] 
+9:45 Cuộc họp đã kết thúc: 17 phút 2 giây
+
+
+
+
+Install Postgresql 14 in Ubuntu server 22.04    --> doneCreate DB - ansible module postgresql_db    --> doneCreate User/Role - ansible module postgresql_user  --> donemd5 connection for Postgresql User/ role - ansible module postgresql_pg_hba --> ongoing 27/02Grant Privileges to User/ Role - ansible module postgresql_privs  --> 27/02Backup Postgresql - Ansible module postgresql_db   --> 28/02Restore Postgresql - Ansible module postgresql_db  -->28/02Run SQL command/Query - Ansible module postgresql_query  --> 01/02reconstruction ansible folder - ansible roles   --> 02/02
+
+
+[Thứ Sáu 11:35] Nguyen Minh Thai (GHC.COE)
+Estimate infra costs:AWS: CompleteGCP: N/AQuestions for getting started:General:
+Do we need to manage the infra? If yes, how?
+Answer: No, we don't want our platform to be depended on cloud provider platforms.Where to manage source code?
+Answer: GithubWhere to manage container image?
+Answer: ECR (for AWS), or ACR (for GCP), or Nexus (opensource)Services:
+What services to deploy, and with what priority?
+Answer:
+- ELK
+- Keycloak
+- PostgreSQL
+- MongoDB
+- Redis  standalone/ extra disks - mount len data disk / set up role standalone/ replication
+- Kafka
+- Kong  nginx  truoc Kong
+- Prometheus & GrafanaWhere to deploy?
+Answer: On particular VMs defined in the group note.How to deploy?
+Answer: Using Ansible.
+- Develop Ansible roles for each service
+- Centralize roles on our SCM
+- Deploy services by running roles on a particular VM
+- Requirement for each Ansible role:
+General: Need a clear README.mdDetails:
+- ELK: N/a
+- Keycloak: N/A
+- PostgreSQL: install, update, remove a single instance
+Optional: backup, scale
+- MongoDB: install, update, remove a single instance
+Optional: backup, scale
+- Redis: install, update, remove a single instance
+Optional: backup, scale
+- Kafka: N/A
+- Kong: install, update, remove a single instance
+Optional: backup, scale
+- Prometheus: install, update, remove a single instance
+Optional: Understand how to store the monitoring data and backup it
+- Grafana: install, update, remove a single instance
+Optional: Understand how to store the dashboards and backup themHow to manage the configurations?
+Answer: Using Ansible template for configuration files.Microservices:
+Which tool for container orchestration?
+Answer: microk8s or k3sWhere to deploy?
+Answer: On a paticular VMHow to deploy?
+Answer:
+- Using K8s as the orchestration tool
+- Develop Dockerfiles
+- Build Docker images and push them to a registry (depends on which platform we use)
+- Develop deployment manifests
+- Create deployments from above manifestsHow to manage the configurations?
+Answer: Not sure, maybe depends on which orchestration tool to use. OR, manually :)CICD:
+Registry: ECR (for AWS), or ACR (for GCP), Nexus (opensource)CICD tool:
+- Github Action: Can be our best choice because Github is also our SCM
+- Jenkins: THIS CAN CAUSE HIGHER EXPENSES FOR EXTRA COMPUTATION
+- Platform services: THIS CAN CAUSE HIGHER EXPENSES
+ Changelog
+Announce updates and news to your users with Changelog.md
+
+[Thứ Sáu 11:35] Nguyen Minh Thai (GHC.COE)
+cái này em draft trước, là tự làm nên hơi chủ quan, các anh góp ý giúp em nhé
+
+[Thứ Sáu 11:35] Nguyen Minh Thai (GHC.COE)
+link confluence chưa vào được chắc anh Cung bận chưa add 
+ heart 1
+
+[Thứ Sáu 11:40] Nguyen Minh Thai (GHC.COE)
+Em không biết mọi ng có quen với Ansible đến đâu, mọi ng có thể tham khảo với follow theo Ansible getting started để hiểu trước https://docs.ansible.com/ansible/latest/getting_started/index.htmlhttps://docs.ansible.com/ansible/latest/network/getting_started/first_playbook.htmlSau đấy có thể cân nhắc đến việc viết theo Ansible rolehttps://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html
+Getting started with Ansible — Ansible Documentation
+

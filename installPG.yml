@@ -1,0 +1,12 @@
+- name: Install PG
+  hosts: all
+  become: true
+  become_method: sudo
+
+  roles:
+    - install-pg-role
+  # handlers:
+  #   - name: Stop Postgresql
+  #     ansible.builtin.service:
+  #       name: postgresql
+  #       state: stopped

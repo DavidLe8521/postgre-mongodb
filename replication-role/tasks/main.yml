@@ -1,0 +1,34 @@
+---
+# tasks file for standalone-role
+# - name: 01 Install requirement package
+#   ansible.builtin.include_tasks:
+#     01.pre-installdb.yml
+
+# - name: "02 Install PG"
+#   ansible.builtin.include_tasks:
+#     02.install-PG.yml
+
+# - name: 03 Create User
+#   ansible.builtin.include_tasks:
+#     03.create-user.yml
+
+# - name: 04 Update template from local to srv
+#   ansible.builtin.include_tasks:
+#     04.update-config.yml
+
+- name: Check if postgresql is initialized
+  ansible.builtin.stat:
+    path: "{{ postgresql_data_dir }}/pg_hba.conf"
+  register: postgres_data
+
+# - name: Empty data dir
+#   ansible.builtin.file:
+#     path: "{{ postgresql_data_dir }}"
+#     state: absent
+#   when: not postgres_data.stat.exists
+
+# - name: Initialize PostgreSql
+#   ansible.builtin.shell: "{{ postgresql_bin_path }}/initdb -D {{ postgresql_data_dir }}"
+#   become: true
+#   become_user: postgres
+#   when: not postgres_data.stat.exists

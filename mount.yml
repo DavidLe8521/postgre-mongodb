@@ -1,0 +1,29 @@
+- name: Partition, Manage LVM, Format and Mount Disks on Linux
+  hosts: all
+  become: true
+  become_method: sudo
+
+  vars:
+    parted:
+      - device: /dev/sdb
+        number: 1
+        state: present
+    # lvg:
+    #   - vg: vg_test
+    #     pvs: /dev/vdc1
+    # lvol:
+    #   - vg: vg_test
+    #     lv: lv_test
+    #     shrink: no
+    #     size: 100%FREE
+    filesystem:
+      - fstype: ext4
+        dev: /dev/sdb
+    mount:
+      - path: /mnt/pgdata
+        src: /dev/sdb
+        fstype: ext4
+        opts: defaults
+
+  roles:
+    - ansible-role-disk

@@ -1,0 +1,20 @@
+---
+# tasks file for install-pg-role
+
+- name: 01 Install requirement package
+  ansible.builtin.include_tasks:
+    01.pre-installdb.yml
+
+- name: "02 Install PG"
+  ansible.builtin.include_tasks:
+    02.install-PG.yml
+
+- name: "03 Stop PG"
+  ansible.builtin.include_tasks:
+    03.stop-pg.yml
+
+  # handlers:
+  #   - name: Stop Postgresql
+  #     ansible.builtin.systemd:
+  #       name: postgresql
+  #       state: stopped

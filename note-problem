@@ -1,0 +1,26 @@
+
+               config_file               
+-----------------------------------------
+ /etc/postgresql/14/main/postgresql.conf
+(1 row)
+
+postgres=# show data_directory;
+       data_directory        
+-----------------------------
+ /var/lib/postgresql/14/main
+(1 row)
+
+----------------------------------------------
+1. Create role for task common: - mount disk
+ - var dictionary: {key, value} - device name, mount path, file system type
+ - Use jinja2 template with loop functions - for user case: multi device on server
+
+2. use tag for flexible running.
+
+3. reformat ansibe with same infracture code for re-use purpose.
+
+4. for standalone and replication mode use only one extra condition.
+
+
+--------------------------------------------------------------------------------
+

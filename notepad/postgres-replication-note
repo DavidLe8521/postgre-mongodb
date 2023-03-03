@@ -1,0 +1,124 @@
+
+PostgreSQL Master name and IP address:
+
+PGMaster and 192.168.72.128 
+
+PostgreSQL Slave/Replica name and IP address:
+
+PGSlave and 192.168.72.129 
+
+On Master and Slave servers, PostgreSQL 14 must have installed.
+
+Step1: Configurations on master server
+1. On master server, configure the IP address(es) listen to for connections from clients in postgresql.conf by removing # in front of listen_address and give *. Which means listen connections from all.
+
+listen_addresses = '*'
+
+2. Now, connect to PostgreSQL on master server and create replica login.
+
+CREATE USER replicator WITH REPLICATION ENCRYPTED PASSWORD 'admin@123';
+
+
+ 
+3. Enter the following entry pg_hba.conf file which is located in /etc/postgresql/14/main on Ubuntu(debian systems).
+
+host    replication     replicator      192.168.72.129/24      md5
+
+How to setup streaming replication in PostgreSQL step by step on Ubuntu
+
+4. Now, restart the PostgreSQL on Master server by using below command.
+
+sudo systemctl restart postgresql
+
+
+Step3: Configurations on slave(standby) server
+1. We have to stop PostgreSQL on Slave server by using following command.
+
+sudo systemctl stop postgresql
+
+2. Now, switch to postgres user and take backup of main(data) directory.
+
+su - postgres
+cp -R /var/lib/postgresql/14/main/ /var/lib/postgresql/14/main_old/
+
+
+ 
+3. Now, remove the contents of main(data) directory on slave server.
+
+rm -rf /var/lib/postgresql/14/main/
+
+4. Now, use basebackup to take the base backup with the right ownership with postgres(or any user with right permissions).
+
+pg_basebackup -h 192.168.72.128 -D /var/lib/postgresql/14/main/ -U replicator -P -v -R -X stream -C -S slaveslot1
+
+Then provide the password for user replicator created in master server.
+
+pg_basebackup: initiating base backup, waiting for checkpoint to complete
+....................................
+pg_basebackup: syncing data to disk ...
+pg_basebackup: base backup completed
+
+
+
+5. Notice that standby.signal is created and the connection settings are appended to postgresql.auto.conf.
+
+ls -ltrh /var/lib/postgresql/14/main/
+
+
+
+6.  postgresql.conf and there is a standby.signal file present in the data directory.
+
+7. Now connect the master server, you should be able to see the replication slot called slotslave1 when you open the pg_replication_slots view as follows.
+
+SELECT * FROM pg_replication_slots;
+
+
+
+Step3. Test replication setup
+1. Now start PostgreSQL on slave(standby) server.
+
+systemctl start postgresql
+
+2. Now, try to create object or database in slave(standby) server. It throws error, because slave(standby) is read-only server.
+
+create database slave1;
+
+
+
+3. WE can check the status on standby using below command.
+
+SELECT * FROM pg_stat_wal_receiver;
+
+
+
+4. Now, verify the replication type synchronous or aynchronous using below command on master database server.
+
+SELECT * FROM pg_stat_replication;
+
+5. Lets create a database in master server and verify its going to replicate to slave or not.
+
+ create database stream;
+
+6. Now, connect to slave and verify the database copied or not.
+
+select datname from pg_database;
+
+7. If you want to enable synchronous, the run the below command on master database server and reload postgresql service.
+
+ALTER SYSTEM SET synchronous_standby_names TO  '*';
+ systemctl reload postgresql
+
+Thats all. We have successfully setup streaming replication in PostgreSQL step by step on Ubuntu.
+
+
+
+For any doubts and query, please write on youtube video comments section.
+
+Note : Flow the Process shown in video.
+
+😉Subscribe and like for more videos:
+  
+
+ / @chiragstutorial  
+💛Don't forget to, 💘Follow, 💝Like,  💖Share 💙&, Comment
+

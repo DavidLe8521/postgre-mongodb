@@ -1,0 +1,17 @@
+---
+## 03 Create User
+- name: Utility present
+  ansible.builtin.package:
+    name: python3-psycopg2
+    state: present
+
+- name: Create db user
+  become: true
+  become_user: postgres
+  community.postgresql.postgresql_user:
+    state: present
+    name: replicator
+    password: "123123"
+    role_attr_flags: REPLICATION
+    # name: "{{ db_user }}"
+    # password: "{{ db_password }}"

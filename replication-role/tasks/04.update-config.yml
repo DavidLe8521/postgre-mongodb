@@ -1,0 +1,7 @@
+---
+# 04 update config file
+- name: 04 Copy template tu file len server
+  ansible.builtin.template:
+    src: ../files/pg_hba.config
+    dest: /etc/postgresql/14/main/pg_hba.conf
+    backup: true

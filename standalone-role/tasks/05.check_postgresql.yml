@@ -1,0 +1,8 @@
+---
+# test thu stop handler
+- name: Check if postgresql is initialized
+  ansible.builtin.stat:
+    path: "{{ postgresql_data_dir }}/pg_hba.conf"
+  register: postgres_data
+  notify:
+    - Stop Postgresql

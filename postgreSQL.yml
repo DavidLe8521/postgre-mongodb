@@ -1,0 +1,21 @@
+---
+- name: Postgresql demo
+  hosts: all
+  become: true
+  vars:
+    - standalone_mode: true
+  tasks:
+    - name: Install PG role
+      ansible.builtin.include_role:
+        name: install-pg-role
+      tags: installdb
+
+    # - name: Standalone role
+    #   ansible.builtin.include_role:
+    #     name: standalone-role
+    #   when: standalone_mode
+
+    # - name: Replication role 01
+    #   ansible.builtin.include_role:
+    #     name: replication-role
+    #   when: not standalone_mode
